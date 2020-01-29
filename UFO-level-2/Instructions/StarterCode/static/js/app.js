@@ -14,9 +14,23 @@ var tbody = d3.select("tbody");
 
 // Looping through each Object in the whole data
 
+var date_arr =[]
+var city_arr =[]
+var state =[]
+var country = []
+var shape = []
+
 tableData.forEach(each_object => 
 {
-    //console.log(each_object);
+    //console.log("------------datetime values-------------")
+    //console.log(each_object.datetime);
+    //console.log(typeof each_object.datetime);
+
+    date_arr.push(each_object.datetime)
+    city_arr.push(each_object.city)
+    state.push(each_object.state)
+    country.push(each_object.country)
+    shape.push(each_object.shape)
 
     // Appending a row to fill data for each object in the data using d3
 
@@ -44,6 +58,26 @@ tableData.forEach(each_object =>
 
 });
 
+
+
+// getting unique values to load in the drop down list
+
+var date_unique  = d3.set(date_arr).values(); 
+//console.log(date_unique)
+  
+    
+var city_unique = d3.set(city_arr).values();
+
+
+//console.log(city_unique)
+
+var state_unique = d3.set(state).values();
+var country_unique = d3.set(country).values();
+var shape_unique = d3.set(shape).values();
+
+
+// adding tags for dropdown list and labels for multi search criteria
+
 var li_tag = d3.select("li")
 li_tag.select("input").remove()
 
@@ -66,64 +100,48 @@ var select_tag3 = li_tag1.append("select").attr("id","selectcountry")
 var shape_label = li_tag1.append("label").attr("for","shape").text("Enter Shape")
 var select_tag4 = li_tag1.append("select").attr("id","selectshape")
 
-tableData.forEach(date_objects =>{
-  // var option_tag = select_tag.append("option")
+date_unique.forEach(dates =>{
+  //console.log(dates);
+
   var option_tag = select_tag.attr("id","datetime").append("option")
- 
-
-  //var value_attr = option_tag.attr("value",date_objects.datetime).text(date_objects.datetime);
-
-  var value_attr = option_tag.attr("value",date_objects.datetime)
-  value_attr.text(date_objects.datetime)
-
-    //var trail = d3.select("input").attr("id","datetime")
-
-    //var placeholder = trail.attr("placeholder","------select date ------").text()
-
-    //console.log(placeholder);
-
-
-  if (city_label.attr("for")=="city")
-  {
-    
-    //var option_tag = select_tag1.attr("id","selectcity").append("option")
-    var option_tag = select_tag1.append("option")
-    var value_attr = option_tag.attr("value",date_objects.city)
-    value_attr.text(date_objects.city)
-  };
-
-  if (state_label.attr("for")=="state")
-  {
-    var option_tag = select_tag2.append("option")
-    var value_attr = option_tag.attr("value",date_objects.state)
-    value_attr.text(date_objects.state)
-  };
-  
-  if (country_label.attr("for")=="country")
-  {
-    var option_tag = select_tag3.append("option")
-    var value_attr = option_tag.attr("value",date_objects.country)
-    value_attr.text(date_objects.country)
-  };
-
-  
-  if (shape_label.attr("for")=="shape")
-  {
-    
-    //var option_tag = select_tag2.attr("id","selectstate").append("option")
-    var option_tag = select_tag4.append("option")
-    var value_attr = option_tag.attr("value",date_objects.shape)
-    value_attr.text(date_objects.shape)
-  };
-  
+   var value_attr = option_tag.attr("value",dates)
+  value_attr.text(dates)
 });
+
+
+city_unique.forEach(cities =>{
+
+  var option_tag = select_tag1.append("option")
+  var value_attr = option_tag.attr("value",cities)
+  value_attr.text(cities)
+
+});
+
+state_unique.forEach(st=>{
+
+  var option_tag = select_tag2.append("option")
+  var value_attr = option_tag.attr("value",st)
+  value_attr.text(st)
+
+})
+
+country_unique.forEach(coun =>{
+  var option_tag = select_tag3.append("option")
+    var value_attr = option_tag.attr("value",coun)
+    value_attr.text(coun)
+
+});
+
+shape_unique.forEach(sh =>{
+    var option_tag = select_tag4.append("option")
+    var value_attr = option_tag.attr("value",sh)
+    value_attr.text(sh)
+})
 
 
 // Grabbing the reference for "Filter Button"
 
 var filter_btn = d3.select("#filter-btn");
-
-//var date_selected = d3.select("select").select
 
 filter_btn.on("click",function(){
 
